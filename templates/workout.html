@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Workout Plan Generator</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input, select {
+            padding: 8px;
+            margin-top: 5px;
+        }
+
+        button {
+            padding: 10px 18px;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 25px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>🏋️ Workout Plan Generator</h1>
+
+    <label>Age:</label>
+    <input type="number" id="age">
+
+    <br><br>
+
+    <label>Fitness Level:</label>
+    <select id="level">
+        <option value="Beginner">Beginner</option>
+        <option value="Intermediate">Intermediate</option>
+        <option value="Advanced">Advanced</option>
+    </select>
+
+    <br><br>
+
+    <label>Goal:</label>
+    <select id="goal">
+        <option value="General Fitness">General Fitness</option>
+        <option value="Strength">Strength</option>
+        <option value="Endurance">Endurance</option>
+    </select>
+
+    <br><br>
+
+    <button type="button" onclick="generateWorkout()">
+        Generate Workout
+    </button>
+
+    <div id="result"></div>
+
+    <script>
+        function generateWorkout() {
+
+            let age = document.getElementById("age").value;
+            let level = document.getElementById("level").value;
+            let goal = document.getElementById("goal").value;
+
+            if (age === "") {
+                document.getElementById("result").innerHTML =
+                    "<h3>Please enter your age.</h3>";
+                return;
+            }
+
+            let workout = "";
+
+            if (level === "Beginner") {
+
+                workout = `
+                    <h2>Beginner Workout Plan</h2>
+
+                    <p><b>Monday:</b> Full Body Exercise - 20 minutes</p>
+                    <p><b>Tuesday:</b> Walking - 20 minutes</p>
+                    <p><b>Wednesday:</b> Rest</p>
+                    <p><b>Thursday:</b> Light Full Body Exercise - 20 minutes</p>
+                    <p><b>Friday:</b> Walking - 20 minutes</p>
+                    <p><b>Saturday:</b> Stretching - 15 minutes</p>
+                    <p><b>Sunday:</b> Rest</p>
+                `;
+
+            } else if (level === "Intermediate") {
+
+                workout = `
+                    <h2>Intermediate Workout Plan</h2>
+
+                    <p><b>Monday:</b> Strength Training - 30 minutes</p>
+                    <p><b>Tuesday:</b> Cardio - 30 minutes</p>
+                    <p><b>Wednesday:</b> Rest</p>
+                    <p><b>Thursday:</b> Strength Training - 30 minutes</p>
+                    <p><b>Friday:</b> Cardio - 30 minutes</p>
+                    <p><b>Saturday:</b> Full Body Exercise - 30 minutes</p>
+                    <p><b>Sunday:</b> Rest</p>
+                `;
+
+            } else {
+
+                workout = `
+                    <h2>Advanced Workout Plan</h2>
+
+                    <p><b>Monday:</b> Strength Training - 45 minutes</p>
+                    <p><b>Tuesday:</b> Cardio - 40 minutes</p>
+                    <p><b>Wednesday:</b> Recovery / Rest</p>
+                    <p><b>Thursday:</b> Strength Training - 45 minutes</p>
+                    <p><b>Friday:</b> Cardio - 40 minutes</p>
+                    <p><b>Saturday:</b> Full Body Training - 45 minutes</p>
+                    <p><b>Sunday:</b> Rest</p>
+                `;
+            }
+
+            document.getElementById("result").innerHTML = workout;
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Diet Plan Generator</title>
+</head>
+
+<body>
+
+    <h1>🥗 Diet Plan Generator</h1>
+
+    <label>Age:</label>
+    <input type="number" id="age">
+
+    <br><br>
+
+    <label>Diet Preference:</label>
+    <select id="diet">
+        <option value="Vegetarian">Vegetarian</option>
+        <option value="Non-Vegetarian">Non-Vegetarian</option>
+    </select>
+
+    <br><br>
+
+    <label>Goal:</label>
+    <select id="goal">
+        <option value="General Fitness">General Fitness</option>
+        <option value="Strength">Strength</option>
+        <option value="Healthy Eating">Healthy Eating</option>
+    </select>
+
+    <br><br>
+
+    <button type="button" onclick="generateDiet()">
+        Generate Diet Plan
+    </button>
+
+    <div id="result"></div>
+
+    <script>
+        function generateDiet() {
+
+            let age = document.getElementById("age").value;
+            let diet = document.getElementById("diet").value;
+            let goal = document.getElementById("goal").value;
+
+            if (age === "") {
+                document.getElementById("result").innerHTML =
+                    "<h3>Please enter your age.</h3>";
+                return;
+            }
+
+            let plan = `
+                <h2>🥗 ${diet} Diet Plan</h2>
+
+                <p><b>Breakfast:</b> Oatmeal, fruits and milk</p>
+
+                <p><b>Mid-Morning:</b> Fruits or nuts</p>
+
+                <p><b>Lunch:</b> Rice/chapati with vegetables and protein-rich food</p>
+
+                <p><b>Evening:</b> Fruit or healthy snack</p>
+
+                <p><b>Dinner:</b> Light balanced meal with vegetables and protein</p>
+
+                <p><b>Goal:</b> ${goal}</p>
+
+                <h3>💧 Stay hydrated and maintain a balanced diet.</h3>
+            `;
+
+            document.getElementById("result").innerHTML = plan;
+        }
+    </script>
+
+</body>
+</html> 
