@@ -10,7 +10,6 @@ from .routes import router
 @asynccontextmanager
 async def lifespan(app: FastAPI):
 
-    # Create database tables when application starts.
     init_db()
 
     yield
@@ -19,7 +18,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title="FitBuddy - AI Fitness Plan Generator",
     description=(
-        "AI-powered adult wellness workout planner "
+        "AI-powered adult wellness planner "
         "using FastAPI, SQLite and Gemini."
     ),
     version="1.0.0",
@@ -32,5 +31,6 @@ app.mount(
     StaticFiles(directory="static"),
     name="static",
 )
+
 
 app.include_router(router)

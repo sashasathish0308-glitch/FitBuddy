@@ -1,75 +1,277 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Diet Plan Generator</title>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>AI Diet Plan Generator</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4fff5;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 30px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+        }
+
+        h1 {
+            color: #238636;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 7px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 13px 20px;
+            background: #238636;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 25px;
+            padding: 20px;
+            background: #f0f8e9;
+            border-radius: 10px;
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+
+        .error {
+            color: #b00020;
+            font-weight: bold;
+        }
+
+    </style>
+
 </head>
 
 <body>
 
-    <h1>🥗 Diet Plan Generator</h1>
+<div class="container">
 
-    <label>Age:</label>
-    <input type="number" id="age">
+    <h1>🍲 AI Diet Plan Generator</h1>
 
-    <br><br>
 
-    <label>Diet Preference:</label>
-    <select id="diet">
-        <option value="Vegetarian">Vegetarian</option>
-        <option value="Non-Vegetarian">Non-Vegetarian</option>
+    <label for="age">
+        Age:
+    </label>
+
+    <input
+        type="number"
+        id="age"
+        value="25"
+        min="18"
+    >
+
+
+    <label for="preference">
+        Diet Preference:
+    </label>
+
+    <select id="preference">
+
+        <option value="Vegetarian">
+            Vegetarian
+        </option>
+
+        <option value="Non-Vegetarian">
+            Non-Vegetarian
+        </option>
+
     </select>
 
-    <br><br>
 
-    <label>Goal:</label>
+    <label for="goal">
+        Goal:
+    </label>
+
     <select id="goal">
-        <option value="General Fitness">General Fitness</option>
-        <option value="Strength">Strength</option>
-        <option value="Healthy Eating">Healthy Eating</option>
+
+        <option value="General Fitness">
+            General Fitness
+        </option>
+
+        <option value="Strength">
+            Strength
+        </option>
+
+        <option value="Healthy Eating">
+            Healthy Eating
+        </option>
+
     </select>
 
-    <br><br>
 
-    <button type="button" onclick="generateDiet()">
-        Generate Diet Plan
+    <button onclick="generateDiet()">
+        🤖 Generate AI Diet Plan
     </button>
 
-    <div id="result"></div>
 
-    <script>
-        function generateDiet() {
+    <div id="result">
+        Enter the details and click the button.
+    </div>
 
-            let age = document.getElementById("age").value;
-            let diet = document.getElementById("diet").value;
-            let goal = document.getElementById("goal").value;
+</div>
 
-            if (age === "") {
-                document.getElementById("result").innerHTML =
-                    "<h3>Please enter your age.</h3>";
-                return;
-            }
 
-            let plan = `
-                <h2>🥗 ${diet} Diet Plan</h2>
+<script>
 
-                <p><b>Breakfast:</b> Oatmeal, fruits and milk</p>
+async function generateDiet() {
 
-                <p><b>Mid-Morning:</b> Fruits or nuts</p>
+    const result =
+        document.getElementById("result");
 
-                <p><b>Lunch:</b> Rice/chapati with vegetables and protein-rich food</p>
 
-                <p><b>Evening:</b> Fruit or healthy snack</p>
+    const age =
+        Number(
+            document.getElementById("age").value
+        );
 
-                <p><b>Dinner:</b> Light balanced meal with vegetables and protein</p>
 
-                <p><b>Goal:</b> ${goal}</p>
+    const preference =
+        document.getElementById("preference")
+        .value;
 
-                <h3>💧 Stay hydrated and maintain a balanced diet.</h3>
-            `;
 
-            document.getElementById("result").innerHTML = plan;
+    const goal =
+        document.getElementById("goal")
+        .value;
+
+
+    if (!age || age < 18) {
+
+        result.innerHTML =
+            '<span class="error">' +
+            'This demo is intended for adults aged 18 and above.' +
+            '</span>';
+
+        return;
+    }
+
+
+    result.innerHTML =
+        "🤖 Generating AI diet plan...";
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/generate-diet",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        age: age,
+
+                        preference:
+                            preference,
+
+                        goal: goal
+
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "Diet response:",
+            data
+        );
+
+
+        if (
+            data.success === true &&
+            data.diet
+        ) {
+
+            result.innerHTML =
+                "<strong>" +
+                "🍽️ AI Generated Diet Plan" +
+                "</strong><br><br>" +
+                escapeHtml(data.diet);
+
+        } else {
+
+            result.innerHTML =
+                '<span class="error">' +
+                "❌ Error: " +
+                escapeHtml(
+                    data.error ||
+                    "Unknown error"
+                ) +
+                "</span>";
         }
-    </script>
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        result.innerHTML =
+            '<span class="error">' +
+            "❌ Unable to connect to server." +
+            "</span>";
+
+    }
+
+}
+
+
+function escapeHtml(text) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+}
+
+</script>
 
 </body>
-</html> 
+
+</html>

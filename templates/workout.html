@@ -1,132 +1,280 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Workout Plan Generator</title>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>AI Workout Plan Generator</title>
 
     <style>
+
         body {
             font-family: Arial, sans-serif;
-            margin: 40px;
+            background: #f4f8ff;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 30px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.15);
         }
 
         h1 {
-            color: #333;
+            color: #2878c8;
         }
 
         label {
+            display: block;
             font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 7px;
         }
 
-        input, select {
-            padding: 8px;
-            margin-top: 5px;
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            box-sizing: border-box;
+            font-size: 16px;
         }
 
         button {
-            padding: 10px 18px;
+            margin-top: 20px;
+            padding: 13px 20px;
+            background: #2878c8;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            font-size: 16px;
             cursor: pointer;
         }
 
         #result {
             margin-top: 25px;
+            padding: 20px;
+            background: #eef6ff;
+            border-radius: 10px;
+            white-space: pre-wrap;
+            line-height: 1.6;
         }
+
+        .error {
+            color: #b00020;
+            font-weight: bold;
+        }
+
     </style>
+
 </head>
 
 <body>
 
-    <h1>🏋️ Workout Plan Generator</h1>
+<div class="container">
 
-    <label>Age:</label>
-    <input type="number" id="age">
+    <h1>🏋️ AI Workout Plan Generator</h1>
 
-    <br><br>
 
-    <label>Fitness Level:</label>
+    <label for="age">
+        Age:
+    </label>
+
+    <input
+        type="number"
+        id="age"
+        value="25"
+        min="18"
+    >
+
+
+    <label for="level">
+        Fitness Level:
+    </label>
+
     <select id="level">
-        <option value="Beginner">Beginner</option>
-        <option value="Intermediate">Intermediate</option>
-        <option value="Advanced">Advanced</option>
+
+        <option value="Beginner">
+            Beginner
+        </option>
+
+        <option value="Intermediate">
+            Intermediate
+        </option>
+
+        <option value="Advanced">
+            Advanced
+        </option>
+
     </select>
 
-    <br><br>
 
-    <label>Goal:</label>
+    <label for="goal">
+        Goal:
+    </label>
+
     <select id="goal">
-        <option value="General Fitness">General Fitness</option>
-        <option value="Strength">Strength</option>
-        <option value="Endurance">Endurance</option>
+
+        <option value="General Fitness">
+            General Fitness
+        </option>
+
+        <option value="Strength">
+            Strength
+        </option>
+
+        <option value="Endurance">
+            Endurance
+        </option>
+
     </select>
 
-    <br><br>
 
-    <button type="button" onclick="generateWorkout()">
-        Generate Workout
+    <button onclick="generateWorkout()">
+        🤖 Generate AI Workout Plan
     </button>
 
-    <div id="result"></div>
 
-    <script>
-        function generateWorkout() {
+    <div id="result">
+        Enter the details and click the button.
+    </div>
 
-            let age = document.getElementById("age").value;
-            let level = document.getElementById("level").value;
-            let goal = document.getElementById("goal").value;
+</div>
 
-            if (age === "") {
-                document.getElementById("result").innerHTML =
-                    "<h3>Please enter your age.</h3>";
-                return;
-            }
 
-            let workout = "";
+<script>
 
-            if (level === "Beginner") {
+async function generateWorkout() {
 
-                workout = `
-                    <h2>Beginner Workout Plan</h2>
+    const result =
+        document.getElementById("result");
 
-                    <p><b>Monday:</b> Full Body Exercise - 20 minutes</p>
-                    <p><b>Tuesday:</b> Walking - 20 minutes</p>
-                    <p><b>Wednesday:</b> Rest</p>
-                    <p><b>Thursday:</b> Light Full Body Exercise - 20 minutes</p>
-                    <p><b>Friday:</b> Walking - 20 minutes</p>
-                    <p><b>Saturday:</b> Stretching - 15 minutes</p>
-                    <p><b>Sunday:</b> Rest</p>
-                `;
 
-            } else if (level === "Intermediate") {
+    const age =
+        Number(
+            document.getElementById("age").value
+        );
 
-                workout = `
-                    <h2>Intermediate Workout Plan</h2>
 
-                    <p><b>Monday:</b> Strength Training - 30 minutes</p>
-                    <p><b>Tuesday:</b> Cardio - 30 minutes</p>
-                    <p><b>Wednesday:</b> Rest</p>
-                    <p><b>Thursday:</b> Strength Training - 30 minutes</p>
-                    <p><b>Friday:</b> Cardio - 30 minutes</p>
-                    <p><b>Saturday:</b> Full Body Exercise - 30 minutes</p>
-                    <p><b>Sunday:</b> Rest</p>
-                `;
+    const level =
+        document.getElementById("level")
+        .value;
 
-            } else {
 
-                workout = `
-                    <h2>Advanced Workout Plan</h2>
+    const goal =
+        document.getElementById("goal")
+        .value;
 
-                    <p><b>Monday:</b> Strength Training - 45 minutes</p>
-                    <p><b>Tuesday:</b> Cardio - 40 minutes</p>
-                    <p><b>Wednesday:</b> Recovery / Rest</p>
-                    <p><b>Thursday:</b> Strength Training - 45 minutes</p>
-                    <p><b>Friday:</b> Cardio - 40 minutes</p>
-                    <p><b>Saturday:</b> Full Body Training - 45 minutes</p>
-                    <p><b>Sunday:</b> Rest</p>
-                `;
-            }
 
-            document.getElementById("result").innerHTML = workout;
+    if (!age || age < 18) {
+
+        result.innerHTML =
+            '<span class="error">' +
+            'This demo is intended for adults aged 18 and above.' +
+            '</span>';
+
+        return;
+    }
+
+
+    result.innerHTML =
+        "🤖 Generating AI workout plan...";
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/generate-workout",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        age: age,
+
+                        level: level,
+
+                        goal: goal
+
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "Workout response:",
+            data
+        );
+
+
+        if (
+            data.success === true &&
+            data.workout
+        ) {
+
+            result.innerHTML =
+                "<strong>" +
+                "🏋️ AI Generated Workout Plan" +
+                "</strong><br><br>" +
+                escapeHtml(data.workout);
+
+        } else {
+
+            result.innerHTML =
+                '<span class="error">' +
+                "❌ Error: " +
+                escapeHtml(
+                    data.error ||
+                    "Unknown error"
+                ) +
+                "</span>";
         }
-    </script>
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        result.innerHTML =
+            '<span class="error">' +
+            "❌ Unable to connect to server." +
+            "</span>";
+
+    }
+
+}
+
+
+function escapeHtml(text) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+}
+
+</script>
 
 </body>
+
 </html>
